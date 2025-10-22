@@ -14,9 +14,9 @@ class SaleController extends Controller
     public function index(Request $request){
         $dto = new SaleDTO($request);
 
-        if ($dto->key !== env('API_KEY')) {
-            return response()->json(['error' => 'Unauthorized'], 201);
-        }
+//        if ($dto->key !== env('API_KEY')) {
+//            return response()->json(['error' => 'Unauthorized'], 201);
+//        }
 
         $sales = $this->saleService->getSales($dto);
 

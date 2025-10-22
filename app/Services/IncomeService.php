@@ -17,23 +17,17 @@ class IncomeService
 
         $query = Income::query();
 
-        if ($dateFrom) {
-            if (strlen($dateFrom) === 10) {
-                $dateFrom .= ' 00:00:00';
-            }
-            $query->where('created_at', '>=', $dateFrom);
+        if ($dto->dateFrom) {
+            $query->where('created_at', '>=', $dto->dateFrom);
         }
 
-        if ($dateTo) {
-            if (strlen($dateTo) === 10) {
-                $dateTo .= ' 23:59:59';
-            }
-            $query->where('created_at', '<=', $dateTo);
+        if ($dto->dateTo) {
+            $query->where('created_at', '<=', $dto->dateTo);
         }
 
         // Пагинация
         $incomes = $query->orderBy('created_at', 'desc')
-            ->paginate($limit, ['*'], 'page', $page);
+            ->paginate($dto->limit, ['*'], 'page', $dto->page);
 
         return $incomes;
     }

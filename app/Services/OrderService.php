@@ -8,32 +8,21 @@ use Illuminate\Http\Request;
 
 class OrderService
 {
-    public function getOrders(OrderDTO $orderDTO){
-
-        $dateFrom = $orderDTO->dateFrom;
-        $dateTo = $orderDTO->dateTo;
-        $page = $orderDTO->page;
-        $limit = $orderDTO->limit;
+    public function getOrders(OrderDTO $dto){
 
         $query = Order::query();
 
-        if ($dateFrom) {
-            if (strlen($dateFrom) === 10) {
-                $dateFrom .= ' 00:00:00';
-            }
-            $query->where('created_at', '>=', $dateFrom);
+        if ($dto->dateFrom) {
+            $query->where('created_at', '>=', $dto->dateFrom);
         }
 
-        if ($dateTo) {
-            if (strlen($dateTo) === 10) {
-                $dateTo .= ' 23:59:59';
-            }
-            $query->where('created_at', '<=', $dateTo);
+        if ($dto->dateTo) {
+            $query->where('created_at', '<=', $dto->dateTo);
         }
 
         // Пагинация
         $orders = $query->orderBy('created_at', 'desc')
-            ->paginate($limit, ['*'], 'page', $page);
+            ->paginate($dto->limit, ['*'], 'page', $dto->page);
 
         return $orders;
     }

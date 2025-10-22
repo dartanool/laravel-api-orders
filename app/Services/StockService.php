@@ -9,19 +9,15 @@ use Illuminate\Http\Request;
 class StockService
 {
     public function getStocks(StockDTO $dto){
-        $dateFrom = $dto->dateFrom;
-        $page = $dto->page;
-        $limit = $dto->limit;
-
         $query = Stock::query();
 
-        if ($dateFrom) {
-            $query->whereDate('created_at', '>=', $dateFrom);
+        if ($dto->dateFrom) {
+            $query->whereDate('created_at', '>=', $dto->dateFrom);
         }
 
         // Пагинация
         $stocks = $query->orderBy('created_at', 'desc')
-            ->paginate($limit, ['*'], 'page', $page);
+            ->paginate($dto->limit, ['*'], 'page', $dto->page);
 
         return $stocks;
     }
