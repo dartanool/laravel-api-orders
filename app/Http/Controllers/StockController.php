@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\DTOs\StockDTO;
 use App\Services\StockService;
 use Illuminate\Http\Request;
 
@@ -11,12 +12,13 @@ class StockController extends Controller
         private StockService $stockService
     ){}
     public function index(Request $request){
-        $key = $request->query('key');
-        if($key !== env('API_KEY')){
+        $dto = new StockDTO($request);
+
+        if($dto->key !== env('API_KEY')){
             return response()->json(['error' => 'Unauthorized']);
         }
 
-        $stocks = $this->stockService->getStocks($request);
+        $stocks = $this->stockService->getStocks($dto);
 
         return response()->json($stocks);
     }

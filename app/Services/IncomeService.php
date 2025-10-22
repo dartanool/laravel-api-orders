@@ -2,29 +2,30 @@
 
 namespace App\Services;
 
+use App\DTOs\IncomeDTO;
 use App\Models\Income;
 use Illuminate\Http\Request;
 
 class IncomeService
 {
-    public function getIncomes(Request $request){
+    public function getIncomes(IncomeDTO $dto){
 
-        $dateFrom = $request->query('dateFrom');
-        $dateTo = $request->query('dateTo');
-        $page = $request->query('page');
-        $limit = $request->query('limit');
+        $dateFrom = $dto->dateFrom;
+        $dateTo = $dto->dateTo;
+        $page = $dto->page;
+        $limit = $dto->limit;
 
         $query = Income::query();
 
         if ($dateFrom) {
-            if (strlen($dateFrom) === 10) { // если только дата
+            if (strlen($dateFrom) === 10) {
                 $dateFrom .= ' 00:00:00';
             }
             $query->where('created_at', '>=', $dateFrom);
         }
 
         if ($dateTo) {
-            if (strlen($dateTo) === 10) { // если только дата
+            if (strlen($dateTo) === 10) {
                 $dateTo .= ' 23:59:59';
             }
             $query->where('created_at', '<=', $dateTo);

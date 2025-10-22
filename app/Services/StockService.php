@@ -2,15 +2,16 @@
 
 namespace App\Services;
 
+use App\DTOs\StockDTO;
 use App\Models\Stock;
 use Illuminate\Http\Request;
 
 class StockService
 {
-    public function getStocks(Request $request){
-        $dateFrom = $request->query('dateFrom');
-        $page = $request->query('page');
-        $limit = $request->query('limit');
+    public function getStocks(StockDTO $dto){
+        $dateFrom = $dto->dateFrom;
+        $page = $dto->page;
+        $limit = $dto->limit;
 
         $query = Stock::query();
 
