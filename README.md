@@ -1,4 +1,4 @@
-# 📦Laravel API Orders
+# Laravel API Orders
 
 REST API на **Laravel **, развёрнутое в **Docker**.  
 Проект реализует выгрузку и фильтрацию данных по четырем сущностям:
